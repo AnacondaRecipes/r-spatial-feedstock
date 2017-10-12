@@ -12,31 +12,44 @@ source:
   url:
     - https://cran.r-project.org/src/contrib/spatial_{{ version }}.tar.gz
     - https://cran.r-project.org/src/contrib/Archive/spatial/spatial_{{ version }}.tar.gz
-
   sha256: 624448d2ac22e1798097d09fc5dc4605908a33f490b8ec971fc6ea318a445c11
 
-build:
-  number: 0
-  skip: true  # [win32]
 
+  # patches:
+   # List any patch files here
+   # - fix.patch
+
+build:
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
+# Suggests: MASS
 requirements:
   build:
     - r-base
-    - posix                # [win]
-    - {{native}}toolchain  # [win]
-    - gcc                  # [not win]
+    - {{ compiler('c') }}        # [not win]
+    - {{native}}toolchain        # [win]
 
   run:
     - r-base
+    - {{native}}gcc-libs         # [win]
 
 test:
   commands:
-    - $R -e "library('spatial')"  # [not win]
+    # You can put additional test commands to be run here.
+    - $R -e "library('spatial')"           # [not win]
     - "\"%R%\" -e \"library('spatial')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
 
 about:
   home: http://www.stats.ox.ac.uk/pub/MASS4/
@@ -48,3 +61,30 @@ extra:
   recipe-maintainers:
     - johanneskoester
     - bgruening
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: spatial
+# Priority: recommended
+# Version: 7.3-11
+# Date: 2015-08-29
+# Depends: R (>= 3.0.0), graphics, stats, utils
+# Suggests: MASS
+# Authors@R: c(person("Brian", "Ripley", role = c("aut", "cre", "cph"), email = "ripley@stats.ox.ac.uk"), person("Roger", "Bivand", role = "ctb"), person("William", "Venables", role = "cph"))
+# Description: Functions for kriging and point pattern analysis.
+# Title: Functions for Kriging and Point Pattern Analysis
+# LazyLoad: yes
+# ByteCompile: yes
+# License: GPL-2 | GPL-3
+# URL: http://www.stats.ox.ac.uk/pub/MASS4/
+# NeedsCompilation: yes
+# Packaged: 2015-08-28 15:25:37 UTC; ripley
+# Author: Brian Ripley [aut, cre, cph], Roger Bivand [ctb], William Venables [cph]
+# Maintainer: Brian Ripley <ripley@stats.ox.ac.uk>
+# Repository: CRAN
+# Date/Publication: 2015-08-30 08:59:41
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml
