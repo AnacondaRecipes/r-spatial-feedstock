@@ -10,8 +10,8 @@ package:
 source:
   fn: spatial_{{ version }}.tar.gz
   url:
-    - https://cran.r-project.org/src/contrib/spatial_{{ version }}.tar.gz
-    - https://cran.r-project.org/src/contrib/Archive/spatial/spatial_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/spatial_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/spatial/spatial_{{ version }}.tar.gz
   sha256: 624448d2ac22e1798097d09fc5dc4605908a33f490b8ec971fc6ea318a445c11
 
 
